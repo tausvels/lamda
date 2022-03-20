@@ -1,24 +1,24 @@
-const https = require('https')
+const https = require('https');
 
 const getData = async (url) => new
 Promise((resolve, reject) => {
-  let dataString = ''
+  let dataString = '';
   https.get(url, (res) => {
     // Listen for data
-    res.on('data', (chunk) => { dataString += chunk })
+    res.on('data', (chunk) => { dataString += chunk });
 
     // On finishing reading full url content
     res.on('end', () => {
-      resolve(JSON.parse(dataString)[0])
-    })
-  })
-})
+      resolve(JSON.parse(dataString)[0]);
+    });
+  });
+});
 
 exports.handler = async (event, context) => {
-    const url = 'https://api.thecatapi.com/v1/images/search'
-    const apiResponse = await getData(url)
+    const url = 'https://api.thecatapi.com/v1/images/search';
+    const apiResponse = await getData(url);
     
     // construct the HTML response
-    const html = `<img src=${apiResponse.url} />`
-    context.succeed(html)
+    const html = `<img src=${apiResponse.url} />`;
+    context.succeed(html);
 };
